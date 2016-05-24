@@ -1,0 +1,114 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px; 
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+}
+
+header {
+	padding: 5px 0px;
+	margin-bottom: 20px;
+	height: 30px;
+	background-color: #545454;
+	color: #FFF;
+	box-shadow: 0px 2px 2px #CCC;
+}
+
+header > div {
+	margin-left: 8px;
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 500;
+	margin: 0px;
+	padding: 0px;
+}
+
+#conteudo {
+	padding: 0px 8px;
+}
+
+#login-dialog {
+	width: 290px;
+	margin: auto;
+	margin-top: 150px;
+	
+}
+
+footer {
+	padding: 0px 8px;
+	margin-bottom: 10px;
+	
+}
+
+.grid-login {
+	background-color: #F2F2F2;
+	border-radius: 8px;
+	border: 1px solid #CCC;
+	margin-top: 8px;
+	padding: 10px;
+}
+
+.rotulo {
+	width: 150px;
+}
+
+.ui-panelgrid td {
+	height: 34px;
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px;
+}
+
+.sem-bordas tbody tr td{
+	border: none;
+	padding: 0 5px;
+}
+
+
+.ui-selectmanycheckbox td{
+	border-width: 0px !important;
+	padding: 0 !important;
+}
+
+.ui-selectmanycheckbox label{
+	padding-right: 10px;
+}
+
+.produto-tabela input{
+	width: 99%;
+}
+
+
+/* Customiza TabView - inicio*/
+.ui-tabs .ui-tabs-panel {
+	padding: 0.5em 0.2em !important;
+}
+
+.ui-tabs {
+	padding: 0px !important;
+}
+
+.ui-tabs .ui-tabs-nav {
+	margin: -1px !important;
+}
+
+.ui-tabs .ui-tabs-top > .ui-tabs-nav {
+	padding: 0px !important;
+}
+/* Customiza TabView - fim*/
+
+
+
+
+
+
+

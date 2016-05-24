@@ -118,7 +118,7 @@ footer {
 }
 
 .menu-sistema .ui-icon-triangle-1-s {
-	background: url(#{resource['images:seta-para-baixo.png']}) no-repeat;
+	background: url(#{resource['images:seta-para-baixo.png']}) no-repeat !important;
 }
 /* menu sistema fim*/
 

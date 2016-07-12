@@ -1,0 +1,81 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<ui:define name="titulo">Novo Produto</ui:define>
+
+	<ui:define name="corpo">
+	<h:form>
+		<h1>Novo Usuário</h1>
+
+		
+
+		<p:toolbar style="margin-top: 20px">
+			<p:toolbarGroup>
+				<p:button value="Novo" outcome="/usuarios/CadastroUsuario" />
+				<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroUsuarioBean.salvar}"/>
+			</p:toolbarGroup>
+			<p:toolbarGroup align="right">
+				<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuario" />
+			</p:toolbarGroup>
+		</p:toolbar>
+
+		
+			<p:messages autoUpdate="true" closable="true"/>
+			
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="50" maxlength="70" value="#{cadastroUsuarioBean.usuario.nome}"/>
+
+				<p:outputLabel value="Email" for="email" />
+				<p:inputText id="email" size="50" maxlength="70" value="#{cadastroUsuarioBean.usuario.email}"/>
+
+				<p:outputLabel value="Senha" for="senha" />
+				<p:password id="senha" size="30" maxlength="40" value="#{cadastroUsuarioBean.usuario.senha}" />
+
+				<p:selectOneMenu id="permissoes" value="" style="width: 98%">
+					<f:selectItem itemLabel="Administradores" itemValue="1" />
+					<f:selectItem itemLabel="Vendedores" itemValue="2" />
+					<f:selectItem itemLabel="Auxiliares" itemValue="3" />
+					<f:selectItem itemLabel="Outras" itemValue="4" />
+				</p:selectOneMenu>
+				<p:commandButton value="Adicionar Grupo" />
+
+			</p:panelGrid>
+
+			<p:dataTable id="grupoTable" value="#{usuarioGrupoBean.grupos}" var="grupo"
+				style="margin-top: 20px; width: 100%" rows="10" paginator="true"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+				<p:column headerText="Grupo" style="text-align: left; width: 90%">
+					<h:outputText value="#{grupo}" />
+				</p:column>
+				<p:column>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show();" process="@this">
+						<f:setPropertyActionListener value="#{grupo}" target="#{usuarioGrupoBean.grupo}"/>
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog header="Exclusão de Grupo"
+				message="tem certeza que deseja excluir o grupo?"
+				widgetVar="confirmacaoExclusao">
+				<p:button value="Não"
+					onclick="confirmacaoExclusao.hide(); return false;" />
+				<p:commandButton value="Sim"
+					oncomplete="confirmacaoExclusao.hide();"
+					action="#{usuarioGrupoBean.removeGrupo}"
+					update="grupoTable" process="@this" />
+			</p:confirmDialog>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

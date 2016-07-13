@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.algaworks.pedidovenda.validation.SKU;
+
 @Entity
 @Table(name = "produto")
 public class Produto implements Serializable {
@@ -51,7 +53,7 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	@NotBlank
+	@NotBlank  @SKU  //==> @Pattern(regexp = "([a-zA-Z]{2}\\d{4,18})?")
 	@Column(nullable = false, length = 255, unique = true)
 	public String getSku() {
 		return sku;
@@ -61,7 +63,7 @@ public class Produto implements Serializable {
 		this.sku = sku;
 	}
 
-	@NotNull
+	@NotNull(message = " é obrigatório")
 	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
@@ -71,8 +73,8 @@ public class Produto implements Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 
-	@NotNull  @Min(1) @Max(9999)
-	@Column(name = "quantidade_estoque", nullable = false)
+	@NotNull(message = " é obrigatório")  @Min(1) @Max(value = 9999, message = " tem um valor muito alto")
+	@Column(name = "quantidade_estoque", nullable = false, length = 5)
 	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}

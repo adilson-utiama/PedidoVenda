@@ -11,6 +11,7 @@
 	<ui:define name="corpo">
 	
 		<f:metadata>
+			<f:viewParam name="dummy" /> <!-- Soucao paleativac para o accesso excessivo ao metodo inicializar -->
 			<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView" />
 		</f:metadata>
 		
@@ -37,15 +38,18 @@
 				<p:inputText id="nome" size="60" maxlength="80" value="#{cadastroProdutoBean.produto.nome}"/>
 				
 				<p:outputLabel value="Categoria" for="categoria"/>
-				<p:selectOneMenu id="categoria">
+				<p:selectOneMenu id="categoria" value="#{cadastroProdutoBean.categoriaPai}">
 					<f:selectItem itemLabel="Selecioe a categoria"/>
 					<f:selectItems value="#{cadastroProdutoBean.categoriaRaizes}" var="categoria"
 						itemValue="#{categoria}" itemLabel="#{categoria.descricao}"/>
+						<p:ajax listener="#{cadastroProdutoBean.carregarSubcategorias}" update="subcategoria"/>
 				</p:selectOneMenu>
 				
-				<p:outputLabel value="Subcategoria" for="subCategoria"/>
-				<p:selectOneMenu id="subCategoria" value="#{cadastroProdutoBean.produto.categoria}">
+				<p:outputLabel value="Subcategoria" for="subcategoria"/>
+				<p:selectOneMenu id="subcategoria" value="#{cadastroProdutoBean.produto.categoria}">
 					<f:selectItem itemLabel="Selecioe a Subcategoria"/>
+					<f:selectItems value="#{cadastroProdutoBean.subcategorias}" var="subcategoria"
+						itemValue="#{subcategoria}" itemLabel="#{subcategoria.descricao}"/>
 				</p:selectOneMenu>
 				
 				<p:outputLabel value="Valor Unitário" for="valorUnitario"/>

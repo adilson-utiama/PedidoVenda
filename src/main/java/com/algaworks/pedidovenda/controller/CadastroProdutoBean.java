@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import com.algaworks.pedidovenda.model.Categoria;
 import com.algaworks.pedidovenda.model.Produto;
 import com.algaworks.pedidovenda.repository.CategoriaRepository;
+import com.algaworks.pedidovenda.service.CadastroProdutoService;
 import com.algaworks.pedidovenda.util.jsf.FacesUtil;
 
 @Named
@@ -22,6 +23,9 @@ public class CadastroProdutoBean implements Serializable{
 	@Inject
 	private CategoriaRepository categorias;
 	
+	@Inject
+	private CadastroProdutoService cadastroProdutoService;
+	
 	private Produto produto;
 	private Categoria categoriaPai;
 	private List<Categoria> categoriaRaizes;
@@ -30,11 +34,18 @@ public class CadastroProdutoBean implements Serializable{
 	public CadastroProdutoBean(){
 		produto = new Produto();
 	}
+	
+	private void limpar(){
+		produto = new Produto();
+		categoriaPai = null;
+		subcategorias = null;
+	}
 
 	public void salvar(){
-		//throw new RuntimeException("Não é possivel salvar produto, função não implementada!");
-		System.out.println("CategoriaPai : " + categoriaPai.getDescricao());
-		System.out.println("Subcategoria selecionada : " + produto.getCategoria().getDescricao());
+		
+		this.produto = cadastroProdutoService.salvar(this.produto);
+		limpar();
+		FacesUtil.addInfoMessage("Produto salvo com sucesso!");
 	}
 	
 	public void inicializar(){

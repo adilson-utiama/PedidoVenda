@@ -6,18 +6,23 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-	<ui:define name="titulo">Novo Produto</ui:define>
+	<ui:define name="titulo">Novo Usuário</ui:define>
 
 	<ui:define name="corpo">
+	
+	
+	<f:metadata>
+		<f:viewParam name="dummy" /> <!-- Soucao paleativac para o accesso excessivo ao metodo inicializar -->
+		<f:event listener="#{cadastroUsuarioBean.inicializar}" type="preRenderView" />
+	</f:metadata>
+	
 	<h:form>
 		<h1>Novo Usuário</h1>
-
-		
 
 		<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
 				<p:button value="Novo" outcome="/usuarios/CadastroUsuario" />
-				<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroUsuarioBean.salvar}"/>
+				<p:commandButton value="Salvar" id="botaoSalvar" action="#{cadastroUsuarioBean.salvar}" update="@form"/>
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuario" />
@@ -38,26 +43,31 @@
 				<p:outputLabel value="Senha" for="senha" />
 				<p:password id="senha" size="30" maxlength="40" value="#{cadastroUsuarioBean.usuario.senha}" />
 
-				<p:selectOneMenu id="permissoes" value="" style="width: 98%">
-					<f:selectItem itemLabel="Administradores" itemValue="1" />
-					<f:selectItem itemLabel="Vendedores" itemValue="2" />
-					<f:selectItem itemLabel="Auxiliares" itemValue="3" />
-					<f:selectItem itemLabel="Outras" itemValue="4" />
+				<p:selectOneMenu id="permissoes" value="#{cadastroUsuarioBean.grupoSelecionado}" style="width: 98%">
+				
+						<f:selectItem itemLabel="Selecione Grupo"/>
+						
+						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
+							 itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+												
 				</p:selectOneMenu>
-				<p:commandButton value="Adicionar Grupo" />
+								
+				<p:commandButton value="Adicionar Grupo" action="#{cadastroUsuarioBean.adicionaGrupo}" 
+					update="permissoes grupoTable" process="permissoes @this" icon="ui-icon-plus"/>
+				
 
 			</p:panelGrid>
 
-			<p:dataTable id="grupoTable" value="#{usuarioGrupoBean.grupos}" var="grupo"
+			<p:dataTable id="grupoTable" value="#{cadastroUsuarioBean.usuario.grupos}" var="grupo"
 				style="margin-top: 20px; width: 100%" rows="10" paginator="true"
 				paginatorAlwaysVisible="false" paginatorPosition="bottom">
 
 				<p:column headerText="Grupo" style="text-align: left; width: 90%">
-					<h:outputText value="#{grupo}" />
+					<h:outputText value="#{grupo.nome}" />
 				</p:column>
 				<p:column>
 					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show();" process="@this">
-						<f:setPropertyActionListener value="#{grupo}" target="#{usuarioGrupoBean.grupo}"/>
+						<f:setPropertyActionListener value="#{grupo}" target="#{cadastroUsuarioBean.grupo}"/>
 					</p:commandButton>
 				</p:column>
 
@@ -70,7 +80,7 @@
 					onclick="confirmacaoExclusao.hide(); return false;" />
 				<p:commandButton value="Sim"
 					oncomplete="confirmacaoExclusao.hide();"
-					action="#{usuarioGrupoBean.removeGrupo}"
+					action="#{cadastroUsuarioBean.removeGrupo}"
 					update="grupoTable" process="@this" />
 			</p:confirmDialog>
 

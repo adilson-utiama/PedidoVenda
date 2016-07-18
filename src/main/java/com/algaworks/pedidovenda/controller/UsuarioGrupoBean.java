@@ -2,40 +2,55 @@ package com.algaworks.pedidovenda.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.algaworks.pedidovenda.model.Grupo;
+import com.algaworks.pedidovenda.repository.GrupoRepository;
+import com.algaworks.pedidovenda.util.jsf.FacesUtil;
+
 @Named
-@ViewScoped
+@SessionScoped
 public class UsuarioGrupoBean implements Serializable{
 
 	private static final long serialVersionUID = -2700487807980584294L;
 	
-	private String grupo;
-	private List<String> grupos = new ArrayList<>(Arrays.asList("AUXILIARES","ADMINISTRADORES","VENDEDORES","OUTROS"));
+	@Inject
+	private GrupoRepository grupoRepository;
 	
+	private Grupo grupo;
+	
+	private List<Grupo> grupos = new ArrayList<>();
 	
 	public UsuarioGrupoBean(){
+		grupo = new Grupo();
+	}
 		
+	
+	public void removeGrupo(Grupo grupo){
+		System.out.println("chamando removerGrupo");
+		grupoRepository.removerGrupo(grupo);
 	}
 	
-	public List<String> getGrupos() {
+	public Grupo getGrupo() {
+		return grupo;
+	}
+	
+	public List<Grupo> getGrupos() {
 		return grupos;
 	}
 	
+	public void inicializar(){
+		System.out.println("Inicializando lista de Grupos...");
 		
-	public void setGrupo(String grupo) {
-		System.out.println("Chamando setGrupo");
-		this.grupo = grupo;
-	}
-	
-	public void removeGrupo(){
-		System.out.println("chamando removerGrupo");
-		grupos.remove(this.grupo);
+		if(FacesUtil.isNotPostback()){
+			
+			this.grupos = grupoRepository.grupos();
+		}
+		
 	}
 	
 	

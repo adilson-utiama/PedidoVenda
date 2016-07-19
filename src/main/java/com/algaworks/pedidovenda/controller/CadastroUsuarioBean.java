@@ -72,7 +72,7 @@ public class CadastroUsuarioBean implements Serializable {
 
 	private void limpar() {
 		usuario = new Usuario();
-		grupos = new ArrayList<>();
+		//grupos = new ArrayList<>();
 		//grupoSelecionado = null;
 		
 	}

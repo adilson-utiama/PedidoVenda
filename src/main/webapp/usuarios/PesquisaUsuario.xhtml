@@ -5,14 +5,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	
-	<ui:define name="titulo">pesquisa de usuarios</ui:define>
+	<ui:define name="titulo">Pesquisa de Usuarios</ui:define>
 	
 	<ui:define name="corpo">
 		<h1>Pesquisa de Usuarios</h1>
 		<h:form id="frm">
 			<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
-				<p:button value="Pesquisa"/>
+				<p:commandButton value="Pesquisa" action="#{pesquisaUsuariosBean.pesquisar}" update="@form"/>
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
@@ -21,11 +21,11 @@
 		
 		<p:panelGrid columns="2" style="margin-top: 20px; width: 100%" styleClass="rotulo, campo">
 			<p:outputLabel value="Nome" for="nome"/>
-			<p:inputText id="nome" size="60"/>
+			<p:inputText id="nome" size="60" value="#{pesquisaUsuariosBean.filtro.nome}"/>
 	
 		</p:panelGrid>
 		
-		<p:dataTable id="usuariosTable" value="#{pesquisaUsuariosBean.usuarios}" var="usuario" rows="10"
+		<p:dataTable id="usuariosTable" value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario" rows="10"
 			paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" style="margin-top: 20px">
 		
 			<p:column headerText="Nome" style="text-align: left">

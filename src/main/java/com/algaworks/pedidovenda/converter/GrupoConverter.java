@@ -38,7 +38,7 @@ public class GrupoConverter implements Converter{
 			//return grupo.getId() == null ? null : grupo.getId().toString();
 			return String.valueOf(grupo.getId());
 		}
-		return null;
+		return "";
 	}
 
 }

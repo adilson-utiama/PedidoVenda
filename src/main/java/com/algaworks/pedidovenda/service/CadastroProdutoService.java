@@ -21,7 +21,7 @@ public class CadastroProdutoService implements Serializable{
 		System.out.println(produto.getSku() + produto.getNome());
 		
 		Produto produtoExistente = produtos.porSKU(produto.getSku());
-		if(produtoExistente != null){
+		if(produtoExistente != null && !produtoExistente.equals(produto)){
 			throw new NegocioException("Ja existe um produto com o SKU informado.");
 		}
 		return produtos.guardar(produto);

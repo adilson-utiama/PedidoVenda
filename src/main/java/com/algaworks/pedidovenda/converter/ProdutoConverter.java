@@ -5,36 +5,38 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.algaworks.pedidovenda.model.Categoria;
-import com.algaworks.pedidovenda.repository.CategoriaRepository;
+import com.algaworks.pedidovenda.model.Produto;
+import com.algaworks.pedidovenda.repository.ProdutoRepository;
 import com.algaworks.pedidovenda.util.cdi.CDIServiceLocator;
 
-@FacesConverter(forClass = Categoria.class)
-public class CategoriaConverter implements Converter {
+@FacesConverter(forClass = Produto.class)
+public class ProdutoConverter implements Converter {
 
 	//@Inject
-	private CategoriaRepository categorias;
+	private ProdutoRepository produtos;
 	
-	public CategoriaConverter(){
+	public ProdutoConverter(){
 		//retorna uma instancia de CategoriaRepo no contexto do CDI
-		categorias = CDIServiceLocator.getBean(CategoriaRepository.class);
+		produtos = CDIServiceLocator.getBean(ProdutoRepository.class);
 	}
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Categoria retorno = null;
+		System.out.println("converter id para produto");
+		Produto retorno = null;
 		if(value != null){
 			Long id = new Long(value);
-			retorno = categorias.porId(id);
+			retorno = produtos.porId(id);
 		}
 		return retorno;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		System.out.println("converter produto para id");
 		if(value != null){
-			Categoria categoria = (Categoria) value;
-			return String.valueOf(categoria.getId());
+			Produto produto = (Produto) value;
+			return String.valueOf(produto.getId());
 		}
 		return "";
 	}

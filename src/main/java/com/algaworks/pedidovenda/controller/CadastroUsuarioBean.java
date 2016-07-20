@@ -42,6 +42,13 @@ public class CadastroUsuarioBean implements Serializable {
 		return usuario;
 	}
 	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+		if(this.usuario != null){
+			this.grupos = this.usuario.getGrupos();
+		}
+	}
+	
 	public void setGrupoSelecionado(Grupo grupoSelecionado) {
 		this.grupoSelecionado = grupoSelecionado;
 	}
@@ -69,6 +76,10 @@ public class CadastroUsuarioBean implements Serializable {
 		limpar();
 		FacesUtil.addInfoMessage("Usuario salvo com sucesso!");
 	}
+	
+	public void remover(){
+		
+	}
 
 	private void limpar() {
 		usuario = new Usuario();
@@ -77,13 +88,7 @@ public class CadastroUsuarioBean implements Serializable {
 		
 	}
 	
-	private void insereGrupo(){
-		Grupo teste = new Grupo();
-		teste.setNome("Teste");
-		teste.setDescricao("Teste de insercao de grupo");
-		usuario.getGrupos().add(teste );
-	}
-
+	
 	public void adicionaGrupo() {
 		System.out.println("grupoSelecionado: " + grupoSelecionado);
 		//insereGrupo();
@@ -106,6 +111,10 @@ public class CadastroUsuarioBean implements Serializable {
 			this.grupos = grupoRepository.grupos();
 		}
 		
+	}
+	
+	public boolean isEditando() {
+		return this.usuario.getId() != null;
 	}
 
 }

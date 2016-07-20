@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -14,8 +15,10 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.algaworks.pedidovenda.model.Produto;
 import com.algaworks.pedidovenda.model.Usuario;
 import com.algaworks.pedidovenda.repository.filter.UsuarioFiltro;
+import com.algaworks.pedidovenda.service.NegocioException;
 import com.algaworks.pedidovenda.util.jpa.Transactional;
 
 public class UsuarioRepository implements Serializable{
@@ -28,6 +31,17 @@ public class UsuarioRepository implements Serializable{
 	@Transactional
 	public Usuario guardar(Usuario usuario){
 		return manager.merge(usuario);
+	}
+	
+	@Transactional
+	public void remover(Usuario usuario){
+		try{
+			usuario = porId(usuario.getId());
+			manager.remove(usuario);
+			manager.flush();
+		} catch (PersistenceException e){
+			throw new NegocioException("Usuario não pode ser excluido.");
+		}
 	}
 
 	public Usuario porNome(String nome) {

@@ -9,7 +9,7 @@
 	
 	<ui:define name="corpo">
 		<h1>Pesquisa de Usuarios</h1>
-		<h:form id="frm">
+		<h:form id="frmPesquisa">
 			<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
 				<p:commandButton value="Pesquisa" action="#{pesquisaUsuariosBean.pesquisar}" update="@form"/>
@@ -36,12 +36,25 @@
 			</p:column>
 			<p:column>
 				
-				<p:button icon="ui-icon-pencil" title="Editar"/>
-				<p:commandButton icon="ui-icon-trash" title="Excluir"/>
+				<p:button icon="ui-icon-pencil" title="Editar" outcome="/usuarios/CadastroUsuario">
+					<f:param name="usuario" value="#{usuario.id}"/>
+				</p:button>
+				<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmacaoExclusao.show();"
+							process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener value="#{usuario}" target="#{pesquisaUsuariosBean.usuarioSelecionado}"/>
+					</p:commandButton>
 				
 			</p:column>
 			
 		</p:dataTable>
+		
+		<p:confirmDialog header="Exclusão de Usuario" 
+				message="tem certeza que deseja excluir o usuario #{pesquisaUsuariosBean.usuarioSelecionado.nome}?"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+				<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;"/>
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide();"
+						action="#{pesquisaUsuariosBean.excluir}" process="@this" update=":frmPesquisa:usuariosTable"/>
+			</p:confirmDialog>
 		
 		</h:form>
 	</ui:define>

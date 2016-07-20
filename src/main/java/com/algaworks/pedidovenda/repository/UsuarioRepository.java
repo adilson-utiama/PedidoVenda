@@ -15,7 +15,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.algaworks.pedidovenda.model.Produto;
+import com.algaworks.pedidovenda.model.Cliente;
 import com.algaworks.pedidovenda.model.Usuario;
 import com.algaworks.pedidovenda.repository.filter.UsuarioFiltro;
 import com.algaworks.pedidovenda.service.NegocioException;
@@ -69,5 +69,16 @@ public class UsuarioRepository implements Serializable{
 			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 		}
 		return criteria.addOrder(Order.asc("nome")).list();
+	}
+
+	public Usuario porEmail(String email) {
+		try{
+			return manager.createQuery("from Usuario where upper(email) = :email", Usuario.class)
+					.setParameter("email", email.toUpperCase())
+					.getSingleResult();
+		} catch (NoResultException e){
+			return null;
+		}
+		
 	}
 }

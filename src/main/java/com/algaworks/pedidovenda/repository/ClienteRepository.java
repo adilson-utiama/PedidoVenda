@@ -71,5 +71,15 @@ public class ClienteRepository implements Serializable{
 		Cliente cliente = manager.find(Cliente.class, id);
 		return cliente;
 	}
+
+	public List<Cliente> porNome(String nome) {
+		try{
+			return manager.createQuery("from Cliente where upper(nome) like :nome", Cliente.class)
+			.setParameter("nome", nome.toUpperCase() + "%")
+			.getResultList();
+		} catch (NoResultException e){
+			return null;
+		}
+	}
 	
 }

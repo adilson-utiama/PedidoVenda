@@ -81,4 +81,9 @@ public class UsuarioRepository implements Serializable{
 		}
 		
 	}
+	
+	public List<Usuario> vendedores(){
+		//TODO fitrar vendedores(todos os usuarios sao vendedores)
+		return manager.createQuery("from Usuario", Usuario.class).getResultList();
+	}
 }

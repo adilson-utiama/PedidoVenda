@@ -75,5 +75,9 @@ public class CadastroClienteBean implements Serializable {
 		endereco = new Endereco();
 		
 	}
+	
+	public boolean isEditando(){
+		return this.cliente.getId() != null;
+	}
 
 }

@@ -3,14 +3,20 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
 
 
-	<ui:define name="titulo">Novo Produto</ui:define>
+	<ui:define name="titulo">#{cadastroCLienteBean.editando ? 'Edição de Cliente' : 'Novo Cliente'}</ui:define>
 
 	<ui:define name="corpo">
+	
+	<f:metadata>
+		<f:viewParam name="cliente" value="#{cadastroClienteBean.cliente}"/>
+	</f:metadata>
+	
 	<h:form id="frm">
-		<h1>Novo Cliente</h1>
+		<h1>#{cadastroCLienteBean.editando ? 'Edição de Cliente' : 'Novo Cliente'}</h1>
 		<script>
 			function tratarInclusaoCliente(args) {
 				if (!args.validationFailed) {
@@ -25,7 +31,7 @@
 			<p:toolbarGroup>
 				<p:button value="Novo" outcome="/clientes/CadastroCliente" />
 				<p:commandButton value="Salvar" id="botaoSalvar"
-					action="#{cadastroClienteBean.salvar}" />
+					action="#{cadastroClienteBean.salvar}" update="@form"/>
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:button value="Pesquisa" outcome="/clientes/PesquisaCliente" />

@@ -16,10 +16,13 @@
 			}
 		}
 		</script>
-		<h:form id="frm">
+		<h:form id="frmPesquisa">
+		
+			<p:messages autoUpdate="true" closable="true"/>
+			
 			<p:toolbar style="margin-top: 20px">
 			<p:toolbarGroup>
-				<p:button value="Pesquisa"/>
+				<p:commandButton value="Pesquisa" action="#{pesquisaClientesBean.pesquisar}" update="@form"/>
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
 				<p:button value="Novo" outcome="/clientes/CadastroCliente"/>
@@ -28,10 +31,11 @@
 		
 		<p:panelGrid columns="2" style="margin-top: 20px; width: 100%" styleClass="rotulo, campo">
 			<p:outputLabel value="CPF/CNPJ" for="cpfcnpj"/>
-			<p:inputText id="cpfcnpj" size="30"/>
+			<p:inputMask id="cpfcnpj" value="#{pesquisaClientesBean.filtro.documentoReceitaFederal}" 
+				size="30" mask="99.999.999/99"/>
 			
 			<p:outputLabel value="Nome" for="nome"/>
-			<p:inputText id="nome" size="60"/>
+			<p:inputText id="nome" value="#{pesquisaClientesBean.filtro.nome}" size="60"/>
 		</p:panelGrid>
 		
 		<p:dataTable id="clientesTable" value="#{pesquisaClientesBean.clientes}" var="cliente" rows="10"
@@ -44,13 +48,16 @@
 				<h:outputText value="#{cliente.tipo}"/>
 			</p:column>
 			<p:column headerText="CPF/CNPJ" style="text-align: left">
-				<h:outputText value="#{cliente.cpfCnpj}"/>
+				<h:outputText value="#{cliente.documentoReceitaFederal}"/>
 			</p:column>
 			<p:column>
 				
-				<p:button icon="ui-icon-pencil" title="Editar"/>
+				<p:button icon="ui-icon-pencil" title="Editar" outcome="/clientes/CadastroCliente">
+					<f:param name="cliente" value="#{cliente.id}"/>
+				</p:button>
+				
 				<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" oncomplete="confirmacaoExclusao.show()">
-					<f:setPropertyActionListener value="#{cliente}" target="#{pesquisaClientesBean.cliente}"/>
+					<f:setPropertyActionListener value="#{cliente}" target="#{pesquisaClientesBean.clienteSelecionado}"/>
 				</p:commandButton>
 				
 			</p:column>
@@ -61,7 +68,7 @@
 			widgetVar="confirmacaoExclusao">
 			<p:button value="Não" onclick="confirmacaoExclusao.hide(); return false;"/>
 			<p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide();"
-				action="#{pesquisaClientesBean.removeCliente}"  update="clientesTable" process="@this"/>
+				action="#{pesquisaClientesBean.excluirCliente}"  update=":frmPesquisa:clientesTable" process="@this"/>
 		</p:confirmDialog>
 		
 		</h:form>

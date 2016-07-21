@@ -17,7 +17,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.algaworks.pedidovenda.model.Cliente;
 import com.algaworks.pedidovenda.model.Usuario;
-import com.algaworks.pedidovenda.repository.filter.UsuarioFiltro;
+import com.algaworks.pedidovenda.repository.filter.UsuarioFilter;
 import com.algaworks.pedidovenda.service.NegocioException;
 import com.algaworks.pedidovenda.util.jpa.Transactional;
 
@@ -62,7 +62,7 @@ public class UsuarioRepository implements Serializable{
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Usuario> filtrados(UsuarioFiltro filtro) {
+	public List<Usuario> filtrados(UsuarioFilter filtro) {
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Usuario.class);
 		if(StringUtils.isNotBlank(filtro.getNome())){

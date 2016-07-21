@@ -2,7 +2,7 @@ package com.algaworks.pedidovenda.repository.filter;
 
 import java.io.Serializable;
 
-public class UsuarioFiltro implements Serializable{
+public class UsuarioFilter implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

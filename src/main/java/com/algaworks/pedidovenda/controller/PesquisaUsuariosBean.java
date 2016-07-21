@@ -11,7 +11,7 @@ import javax.inject.Named;
 
 import com.algaworks.pedidovenda.model.Usuario;
 import com.algaworks.pedidovenda.repository.UsuarioRepository;
-import com.algaworks.pedidovenda.repository.filter.UsuarioFiltro;
+import com.algaworks.pedidovenda.repository.filter.UsuarioFilter;
 import com.algaworks.pedidovenda.util.jsf.FacesUtil;
 
 @Named
@@ -24,12 +24,12 @@ public class PesquisaUsuariosBean implements Serializable{
 	private UsuarioRepository usuarios;
 	
 	private List<Usuario> usuariosFiltrados;
-	private UsuarioFiltro filtro;
+	private UsuarioFilter filtro;
 	
 	private Usuario usuarioSelecionado;
 	
 	public PesquisaUsuariosBean() {
-		filtro = new UsuarioFiltro();
+		filtro = new UsuarioFilter();
 		
 	}
 	
@@ -53,11 +53,11 @@ public class PesquisaUsuariosBean implements Serializable{
 		return usuariosFiltrados;
 	}
 	
-	public UsuarioFiltro getFiltro() {
+	public UsuarioFilter getFiltro() {
 		return filtro;
 	}
 	
-	public void setFiltro(UsuarioFiltro filtro) {
+	public void setFiltro(UsuarioFilter filtro) {
 		this.filtro = filtro;
 	}
 	

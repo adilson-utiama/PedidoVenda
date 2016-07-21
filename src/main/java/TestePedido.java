@@ -24,7 +24,7 @@ public class TestePedido {
 		EntityTransaction trx = manager.getTransaction();
 		trx.begin();
 		
-		Cliente cliente = manager.find(Cliente.class, 1L);
+		Cliente cliente = manager.find(Cliente.class, 2L);
 		Produto produto = manager.find(Produto.class, 1L);
 		Usuario vendedor = manager.find(Usuario.class, 1L);
 		
@@ -54,7 +54,7 @@ public class TestePedido {
 		item.setValorUnitario(new BigDecimal(2.32));
 		item.setPedido(pedido);
 		
-		pedido.getItens().add(item);
+		//pedido.getItens().add(item);
 		
 		manager.persist(pedido);
 		

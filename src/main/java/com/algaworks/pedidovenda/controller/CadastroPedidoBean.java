@@ -94,5 +94,9 @@ public class CadastroPedidoBean implements Serializable{
 		return vendedores;
 	}
 	
+	public boolean isEditando(){
+		return this.pedido.getId() != null;
+	}
+	
 	
 }

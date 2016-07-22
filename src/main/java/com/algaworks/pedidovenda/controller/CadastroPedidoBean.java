@@ -53,6 +53,7 @@ public class CadastroPedidoBean implements Serializable{
 	public void inicializar(){
 		if(FacesUtil.isNotPostback()){
 			vendedores = usuarios.vendedores();
+			this.recalcularPedido();
 		}
 	}
 	
@@ -72,6 +73,13 @@ public class CadastroPedidoBean implements Serializable{
 		this.pedido = pedidos.salvar(this.pedido);
 		FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
 		//throw new NegocioException("Não é possível salvar pedido, função não implementada!");
+	}
+	
+	
+	public void recalcularPedido(){
+		if(this.pedido != null){
+			this.pedido.recalcularValorTotal();
+		}
 	}
 	
 	public Pedido getPedido() {

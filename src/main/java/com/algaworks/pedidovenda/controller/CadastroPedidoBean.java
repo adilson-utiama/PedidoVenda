@@ -3,6 +3,8 @@ package com.algaworks.pedidovenda.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,15 +39,17 @@ public class CadastroPedidoBean implements Serializable{
 	private ProdutoRepository produtos;
 	@Inject
 	private CadastroPedidoService pedidoService;
+
+	@Produces
+	@PedidoEdicao
+	private Pedido pedido;
 	
 	private String sku;
-	private Pedido pedido;
 	private Usuario vendedor;
 	private List<Usuario> vendedores;
 	
 	private Produto produtoLinhaEditavel;
-	//private List<Integer> itens;
-
+	
 	public CadastroPedidoBean() {
 		limpar();
 		
@@ -55,7 +59,10 @@ public class CadastroPedidoBean implements Serializable{
 		pedido = new Pedido();
 		vendedor = new Usuario();
 		pedido.setEnderecoEntrega(new EnderecoEntrega());
-		//itens = new ArrayList<>();
+	}
+	
+	public void pedidoAlterado(@Observes PedidoAlteradoEvent event){
+		this.pedido = event.getPedido();
 	}
 	
 	public void inicializar(){
@@ -116,10 +123,6 @@ public class CadastroPedidoBean implements Serializable{
 	public List<Cliente> completarCliente(String nome){
 		return clientes.porNome(nome);
 	}
-	
-//	public List<Integer> getItens() {
-//		return itens;
-//	}
 	
 	public void salvar(){
 		this.pedido.removerItemVazio();

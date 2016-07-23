@@ -187,19 +187,6 @@ public class Pedido implements Serializable {
 		return !isNovo();
 	}
 	
-	@Transient
-	public void recalcularValorTotal() {
-		BigDecimal total = BigDecimal.ZERO;
-
-		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
-		for (ItemPedido itemPedido : itens) {
-			if (itemPedido.getProduto() != null && itemPedido.getProduto().getId() != null) {
-				total = total.add(itemPedido.getValorTotal());
-			}
-		}
-
-		this.setValorTotal(total);
-	}
 	
 	@Transient
 	public BigDecimal getValorSubTotal(){
@@ -232,6 +219,40 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+
+		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
+		for (ItemPedido itemPedido : itens) {
+			if (itemPedido.getProduto() != null && itemPedido.getProduto().getId() != null) {
+				total = total.add(itemPedido.getValorTotal());
+			}
+		}
+
+		this.setValorTotal(total);
+	}
+	
+	public void adicionarItemVazio() {
+		if(this.isOrcamento()){
+			Produto produto = new Produto();
+			
+			ItemPedido item = new ItemPedido();
+			item.setQuantidade(1);
+			item.setProduto(produto);
+			item.setPedido(this);
+			
+			this.getItens().add(0, item);
+			
+		}
+		
+	}
+
+	@Transient
+	public boolean isOrcamento() {
+		return StatusPedido.ORCAMENTO.equals(this.getStatus());
 	}
 
 	

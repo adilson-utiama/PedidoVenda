@@ -53,7 +53,7 @@
 		<p:inputText id="valorDesconto" size="10" maxlength="10"
 			value="#{cadastroPedidoBean.pedido.valorDesconto}" styleClass="moeda">
 			<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-			<p:ajax event="change" process="@this" update="totalPedido"
+			<p:ajax event="change" process="@this" update="totalPedido subTotal"
 				listener="#{cadastroPedidoBean.recalcularPedido}"/>	
 		</p:inputText>
 		

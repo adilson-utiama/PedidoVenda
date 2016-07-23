@@ -36,7 +36,7 @@ public class CadastroPedidoBean implements Serializable{
 	@Inject
 	private ProdutoRepository produtos;
 	@Inject
-	private CadastroPedidoService pedidos;
+	private CadastroPedidoService pedidoService;
 	
 	private String sku;
 	private Pedido pedido;
@@ -122,9 +122,14 @@ public class CadastroPedidoBean implements Serializable{
 //	}
 	
 	public void salvar(){
-		this.pedido = pedidos.salvar(this.pedido);
-		FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
-		//throw new NegocioException("Não é possível salvar pedido, função não implementada!");
+		this.pedido.removerItemVazio();
+		try{
+			this.pedido = pedidoService.salvar(this.pedido);
+			FacesUtil.addInfoMessage("Pedido salvo com sucesso!");
+		}finally{
+			this.pedido.adicionarItemVazio();
+		}
+		
 	}
 	
 	

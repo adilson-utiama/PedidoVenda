@@ -56,7 +56,8 @@
 					<f:param name="cliente" value="#{cliente.id}"/>
 				</p:button>
 				
-				<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" oncomplete="confirmacaoExclusao.show()">
+				<p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" oncomplete="confirmacaoExclusao.show()"
+					disabled="#{not seguranca.excluirClientePermitido}">
 					<f:setPropertyActionListener value="#{cliente}" target="#{pesquisaClientesBean.clienteSelecionado}"/>
 				</p:commandButton>
 				

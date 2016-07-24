@@ -17,6 +17,7 @@
 	
 	<h:form id="frm">
 		<h1>#{cadastroCLienteBean.editando ? 'Edição de Cliente' : 'Novo Cliente'}</h1>
+		
 		<script>
 			function tratarInclusaoCliente(args) {
 				if (!args.validationFailed) {
@@ -40,6 +41,7 @@
 
 		
 			<p:messages autoUpdate="true" closable="true" />
+			
 			<p:panelGrid columns="2" id="painel"
 				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
 				<p:outputLabel value="Nome" for="nome" />
@@ -65,7 +67,8 @@
 			</p:panelGrid>
 
 			<p:commandButton value="Adicionar Endereço" style="margin-top: 10px"
-				onclick="inclusaoClienteDialog.show(); return false;" />
+				oncomplete="inclusaoClienteDialog.show(); return false;" action="#{cadastroClienteBean.novoEndereco}"
+				process="@this" update=":frm:inclusaoPanel"/>
 
 			<p:dataTable id="cadastroEnderecoTable"
 				value="#{cadastroClienteBean.cliente.enderecos}" var="endereco"
@@ -92,18 +95,23 @@
 				</p:column>
 				<p:column>
 
-					<p:button icon="ui-icon-pencil" title="Editar" />
-					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						oncomplete="confirmacaoExclusao.show();" process="@this">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						onclick="inclusaoClienteDialog.show()" process="@this" update=":frm:inclusaoPanel">
 						<f:setPropertyActionListener value="#{endereco}"
-							target="#{cadastroClienteBean.cliente.enderecos}" />
+							target="#{cadastroClienteBean.enderecoSelecionado}" />
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						onclick="confirmacaoExclusao.show();" process="@this" >
+						<f:setPropertyActionListener value="#{endereco}"
+							target="#{cadastroClienteBean.enderecoSelecionado}" />
 					</p:commandButton>
 
 				</p:column>
 
 			</p:dataTable>
 
-			<p:dialog header="Inclusão de Endereco"
+			<p:dialog header="Inclusão de Endereco" 
 				widgetVar="inclusaoClienteDialog" modal="true" resizable="false">
 				<h:panelGroup id="inclusaoPanel">
 					<p:messages />
@@ -122,24 +130,24 @@
 							required="Informe o Complemento" style="width: 120px" />
 
 						<p:outputLabel value="CEP" />
-						<p:inputText value="#{cadastroClienteBean.endereco.cep}"
+						<p:inputText value="#{cadastroClienteBean.endereco.cep}" required="true"
 							requiredMessage="Informe o CEP" style="width: 100px" />
 
 
 						<p:outputLabel value="Cidade" />
 						<h:panelGroup>
-							<p:inputText value="#{cadastroClienteBean.endereco.cidade}"
+							<p:inputText value="#{cadastroClienteBean.endereco.cidade}" required="true"
 								requiredMessage="Informe a Cidade" style="width: 90px;" />
 
 							<p:outputLabel value="UF" style="margin-left: 5px" />
-							<p:inputText value="#{cadastroClienteBean.endereco.uf}"
+							<p:inputText value="#{cadastroClienteBean.endereco.uf}" required="true"
 								requiredMessage="Informe o UF"
 								style="margin-left: 5px; width: 40px;" />
 						</h:panelGroup>
 
 						<h:outputText />
 						<p:commandButton value="Incluir"
-							action="#{cadastroClienteBean.addEndereco}"
+							action="#{cadastroClienteBean.adicionarEndereco}"
 							update="cadastroEnderecoTable inclusaoPanel"
 							oncomplete="tratarInclusaoCliente(args)"
 							 />
@@ -149,14 +157,14 @@
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:confirmDialog header="Exclusão de Endereço"
+			<p:confirmDialog header="Exclusão de Endereço" 
 				message="tem certeza que deseja excluir o endereço?"
 				widgetVar="confirmacaoExclusao">
 				<p:button value="Não"
 					onclick="confirmacaoExclusao.hide(); return false;" />
 				<p:commandButton value="Sim"
 					oncomplete="confirmacaoExclusao.hide();"
-					action="cadastroClienteBean.removeEndereco"
+					action="#{cadastroClienteBean.removeEndereco}" 
 					update="cadastroEnderecoTable" process="@this" />
 			</p:confirmDialog>
 

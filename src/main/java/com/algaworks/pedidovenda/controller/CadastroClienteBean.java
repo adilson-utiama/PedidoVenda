@@ -22,14 +22,19 @@ public class CadastroClienteBean implements Serializable {
 	private Cliente cliente;
 	private Endereco endereco;
 	
+	private Endereco enderecoSelecionado;
+	
+	
 	@Inject
 	private CadastroClienteService clienteService;
 
 	public CadastroClienteBean() {
 		System.out.println("##Chamando CadastroClienteBean");
-		cliente = new Cliente();
-		endereco = new Endereco();
+		limpar();
+		
 	}
+	
+	
 
 	public Cliente getCliente() {
 		return cliente;
@@ -44,19 +49,37 @@ public class CadastroClienteBean implements Serializable {
 	}
 	
 	public void setEndereco(Endereco endereco) {
+		System.out.println("setEndereco");
 		this.endereco = endereco;
 	}
+	
+	public Endereco getEnderecoSelecionado() {
+		return enderecoSelecionado;
+	}
+	
+	public void setEnderecoSelecionado(Endereco enderecoSelecionado) {
+		this.enderecoSelecionado = enderecoSelecionado;
+	}
 		
 	
-	public void addEndereco(){
+	public void adicionarEndereco(){
 		System.out.println("Incluindo Endereco");
+		
 		this.endereco.setCliente(this.cliente);
-		cliente.getEnderecos().add(this.endereco);
+		this.cliente.getEnderecos().add(this.endereco);
+		//BUG So é possivel adicinar apenas um endereco
+		//this.endereco = new Endereco();
 		
 	}
 	
+	public void novoEndereco(){
+		this.endereco = new Endereco();
+	}
+	
+	
 	public void removeEndereco(){
-		
+		//BUG sempre remove o primeiro item
+		this.cliente.getEnderecos().remove(this.enderecoSelecionado);
 	}
 	
 	public void salvar(){
@@ -70,10 +93,11 @@ public class CadastroClienteBean implements Serializable {
 		
 	}
 
+	
 	private void limpar() {
 		cliente = new Cliente();
 		endereco = new Endereco();
-		
+		enderecoSelecionado = new Endereco();
 	}
 	
 	public boolean isEditando(){

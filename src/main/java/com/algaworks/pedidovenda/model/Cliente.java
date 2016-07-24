@@ -61,7 +61,7 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	@NotNull @Size(max = 14)
+	@NotBlank @Size(max = 14)
 	@Column(name = "doc_receita_federal", nullable = false, length = 14)
 	public String getDocumentoReceitaFederal() {
 		return documentoReceitaFederal;
@@ -82,7 +82,7 @@ public class Cliente implements Serializable {
 		this.tipo = tipo;
 	}
 
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}

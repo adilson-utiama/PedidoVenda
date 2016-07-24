@@ -8,7 +8,8 @@
 		<p:column headerText="SKU" style="texxt-alçign: center; width: 100px">
 			<h:outputText value="#{item.produto.sku}" rendered="#{item.produtoAssociado}"/>
 		
-			<h:inputText value="#{cadastroPedidoBean.sku}" label="SKU" rendered="#{not item.produtoAssociado}">
+			<h:inputText value="#{cadastroPedidoBean.sku}" label="SKU" rendered="#{not item.produtoAssociado}"
+				disabled="#{cadastroPedidoBean.pedido.naoAlteravel}">
 				<p:ajax event="change" process="@this" update="tabelaItens :frmCadastro:subTotal :frmCadastro:totalPedido"
 					listener="#{cadastroPedidoBean.carregarProdutoPorSku}"/>
 			</h:inputText>
@@ -20,7 +21,7 @@
 			<p:autoComplete styleClass="produto-tabela" value="#{cadastroPedidoBean.produtoLinhaEditavel}"
 				completeMethod="#{cadastroPedidoBean.completarProduto}" rendered="#{not item.produtoAssociado}"
 				var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}"
-				forceSelection="true">
+				forceSelection="true" disabled="#{cadastroPedidoBean.pedido.naoAlteravel}">
 				<p:ajax event="itemSelect" update="tabelaItens :frmCadastro:subTotal :frmCadastro:totalPedido"
 					listener="#{cadastroPedidoBean.carregarProdutoLinhaEditavel}"/>
 			</p:autoComplete>
@@ -31,7 +32,7 @@
 			</h:outputText>
 		</p:column>
 		<p:column headerText="Quantidade" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.quantidade}">
+			<p:inputText size="8" value="#{item.quantidade}" disabled="#{cadastroPedidoBean.pedido.naoAlteravel}">
 				<p:ajax event="change" process="@this" 
 					update="tabelaItens :frmCadastro:subTotal :frmCadastro:totalPedido"
 					listener="#{cadastroPedidoBean.atualizarQuantidade(item, linha)}"/>

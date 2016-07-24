@@ -64,10 +64,11 @@ public class CadastroClienteBean implements Serializable {
 	
 	public void adicionarEndereco(){
 		System.out.println("Incluindo Endereco");
+		if(!this.cliente.getEnderecos().contains(this.endereco)){
+			this.endereco.setCliente(this.cliente);
+			this.cliente.getEnderecos().add(this.endereco);
+		}
 		
-		this.endereco.setCliente(this.cliente);
-		this.cliente.getEnderecos().add(this.endereco);
-		//BUG So é possivel adicinar apenas um endereco
 		//this.endereco = new Endereco();
 		
 	}
@@ -101,7 +102,8 @@ public class CadastroClienteBean implements Serializable {
 	}
 	
 	public boolean isEditando(){
-		return this.cliente.getId() != null;
+		return this.cliente.getId() != null && this.endereco.getId() != null;
 	}
-
+	
+	
 }

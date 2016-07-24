@@ -98,7 +98,7 @@
 					<p:commandButton icon="ui-icon-pencil" title="Editar"
 						onclick="inclusaoClienteDialog.show()" process="@this" update=":frm:inclusaoPanel">
 						<f:setPropertyActionListener value="#{endereco}"
-							target="#{cadastroClienteBean.enderecoSelecionado}" />
+							target="#{cadastroClienteBean.endereco}" />
 					</p:commandButton>
 					
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
@@ -111,7 +111,7 @@
 
 			</p:dataTable>
 
-			<p:dialog header="Inclusão de Endereco" 
+			<p:dialog header="#{cadastroClienteBean.editando ? 'Atualizar Endereço' : 'Inclusão de Endereço'}" 
 				widgetVar="inclusaoClienteDialog" modal="true" resizable="false">
 				<h:panelGroup id="inclusaoPanel">
 					<p:messages />
@@ -146,7 +146,7 @@
 						</h:panelGroup>
 
 						<h:outputText />
-						<p:commandButton value="Incluir"
+						<p:commandButton value="#{cadastroClienteBean.editando ? 'Atualizar' : 'Incluir'}"
 							action="#{cadastroClienteBean.adicionarEndereco}"
 							update="cadastroEnderecoTable inclusaoPanel"
 							oncomplete="tratarInclusaoCliente(args)"

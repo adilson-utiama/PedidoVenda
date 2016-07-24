@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,7 +20,10 @@ public class CadastroClienteBean implements Serializable {
 
 	private static final long serialVersionUID = 4686308244408445736L;
 
+	@Produces
+	@ClienteEdicao
 	private Cliente cliente;
+	
 	private Endereco endereco;
 	
 	private Endereco enderecoSelecionado;

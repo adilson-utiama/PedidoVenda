@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import com.algaworks.pedidovenda.model.ItemPedido;
 import com.algaworks.pedidovenda.model.Pedido;
 import com.algaworks.pedidovenda.repository.PedidoRepository;
+import com.algaworks.pedidovenda.util.jpa.Transactional;
 
 public class EstoqueService implements Serializable{
 
@@ -15,11 +16,22 @@ public class EstoqueService implements Serializable{
 	@Inject
 	private PedidoRepository pedidos;
 	
+	@Transactional
 	public void baixarItensEstoque(Pedido pedido){
 		pedido = this.pedidos.porId(pedido.getId());
 		
 		for (ItemPedido item : pedido.getItens()) {
 			item.getProduto().baixarEstoque(item.getQuantidade());
 		}
+	}
+
+	@Transactional
+	public void retornarItensEstoque(Pedido pedido) {
+		pedido = this.pedidos.porId(pedido.getId());
+		
+		for (ItemPedido item : pedido.getItens()) {
+			item.getProduto().adicionarEstoque(item.getQuantidade());
+		}
+		
 	}
 }

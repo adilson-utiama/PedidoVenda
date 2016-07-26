@@ -8,18 +8,35 @@
 	<f:metadata>
 		<f:viewParam name="dummy"/>
 		<f:event listener="#{graficoPedidosCriadosBean.preRender}" type="preRenderView"></f:event>
+		<f:event listener="#{graficoVendedoresBean.preRender}" type="preRenderView"></f:event>
 	</f:metadata>
 	
 	<ui:define name="titulo">Dashboard</ui:define>
 	
 	<ui:define name="corpo">
 	
-		<p:lineChart value="#{graficoPedidosCriadosBean.model}"
-			title="Pedidos Criados"
-			style="height: 400px;"
-			animate="true"
-			minY="0"
-			legendPosition="e"/>
+		
+		<p:panelGrid columns="2" style="margin: auto;">
+		<p:column>
+			<p:lineChart value="#{graficoPedidosCriadosBean.model}"
+				title="Pedidos Criados"
+				style="width: 600px; height: 400px;"
+				animate="true"
+				minY="0"
+				legendPosition="e"/>
+				</p:column>
+		<p:column>
+			<p:pieChart value="#{graficoVendedoresBean.model}"
+				title="Totais por Vendedor"
+				style="width: 500px; heigth: 350px"
+				legendPosition="e"
+				 showDataLabels="true"
+				dataFormat="value"
+				extender="ext" />
+		</p:column>
+			
+			
+		</p:panelGrid>
 		
 	</ui:define>
 	
